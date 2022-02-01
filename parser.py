@@ -23,12 +23,18 @@ class Parser:
     def get_studio(self, fname):
         return fname.split('@')[1]
 
-    def parse_filename(self, f_name):
+    def parse_filename(self, f_name, mode="row"):
         title = self.get_title(f_name)
         actors = self.get_actors(f_name)
         tags = self.get_tags(f_name)
         studio = self.get_studio(f_name)
-        print(title)
-        print(actors)
-        print(tags)
-        print(studio)
+        if mode=="row":
+            return [title, actors, tags, studio]
+        else:
+            return title, actors, tags, studio
+
+        # print(title)
+        # print(actors)
+        # print(tags)
+        # print(studio)
+        # print()
