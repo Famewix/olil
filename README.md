@@ -26,5 +26,6 @@ If you Don't like any of these requirements or restrictions feel free to fork th
 
 ## Environment Variables
 ```
-BASE_DIR="The path to your folder."
+BASE_DIR="The path to your folder"
+FULLSCREEN=bool
 ```
