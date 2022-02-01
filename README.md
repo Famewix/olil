@@ -11,5 +11,5 @@ olil is a program to watch your locally saved private videos form the terminal i
 
 ## File Structure
 `
-Title - [Actor, Actor] - (Category, Category) - @FilmStudio
+Title - [Actor, Actor] - (Tag, Tag) - @FilmStudio
 `
