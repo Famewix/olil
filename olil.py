@@ -9,6 +9,13 @@ load_dotenv()
 BASE_DIR = os.getenv('BASE_DIR')
 parser = Parser()
 
+def check_mpv():
+    from shutil import which
+
+    if which('mpv') == None:
+        print('mpv not found.')
+
+
 def generate_table():
     table = []
     table.append(['ID', 'Title', 'Actors', 'Tags', 'Studio'])
@@ -18,12 +25,15 @@ def generate_table():
         table.append(row)
     return table
 
-table = generate_table()
-print(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))
-input_id = int(input('ID: '))
-file_paths = [os.path.join(BASE_DIR, abs_file) for abs_file in os.listdir(BASE_DIR)]
-file_to_play = file_paths[input_id]
+def main():
+    table = generate_table()
+    print(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))
+    input_id = int(input('ID: '))
+    file_paths = [os.path.join(BASE_DIR, abs_file) for abs_file in os.listdir(BASE_DIR)]
+    file_to_play = file_paths[input_id]
 
-subprocess.call(['mpv', str(file_to_play)])
-print('*'*14)
+    subprocess.call(['mpv', str(file_to_play)])
+    print('*'*14)
 
+if __name__ == "__main__":
+    check_mpv()
