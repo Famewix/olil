@@ -1,7 +1,8 @@
 from dotenv import load_dotenv
 import os
+import sys
 import subprocess
-from parser import Parser
+from _parser import Parser
 from tabulate import tabulate
 
 load_dotenv()
@@ -14,6 +15,7 @@ def check_mpv():
 
     if which('mpv') == None:
         print('mpv not found.')
+        sys.exit()
 
 
 def generate_table():
@@ -25,15 +27,49 @@ def generate_table():
         table.append(row)
     return table
 
-def main():
-    table = generate_table()
-    print(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))
-    input_id = int(input('ID: '))
-    file_paths = [os.path.join(BASE_DIR, abs_file) for abs_file in os.listdir(BASE_DIR)]
-    file_to_play = file_paths[input_id]
+def display_table(tbl):
+    print(tabulate(tbl, headers='firstrow', tablefmt='fancy_grid'))
 
-    subprocess.call(['mpv', str(file_to_play)])
-    print('*'*14)
+def get_id_input(lst):
+    while True:
+        try:
+            v_id = int(input("video ID: "))
+            if v_id > len(lst)-1 or v_id < 0:
+                print("too big || too small")
+            else:
+                return v_id
+        except ValueError:
+            print("a positive integer is defined as a number that produces 0 when it is added to the corresponding positive integer.")
+
+def user_choice():
+    yes = {'yes','y', 'ye', ''}
+    no = {'no','n'}
+
+    choice = input("want to watch other videos? (Y/n): ").lower()
+    if choice in yes:
+        pass
+    elif choice in no:
+        sys.exit()
+
+def main():
+    check_mpv()
+    while True:
+        table = generate_table()
+        display_table(table)
+        file_paths = [os.path.join(BASE_DIR, abs_file) for abs_file in os.listdir(BASE_DIR)]
+        input_id = get_id_input(file_paths)
+        file_to_play = file_paths[input_id]
+
+        if bool(os.getenv('FULLSCREEN')):
+            subprocess.call(['mpv', '-fs', str(file_to_play)])
+            print('studio')
+        else:
+            subprocess.call(['mpv', str(file_to_play)])
+            print('aa')
+
+
+        os.system('cls' if os.name == 'nt' else 'clear')
+        user_choice()
 
 if __name__ == "__main__":
-    check_mpv()
+    main()
