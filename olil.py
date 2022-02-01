@@ -4,6 +4,8 @@ import sys
 import subprocess
 from _parser import Parser
 from tabulate import tabulate
+from colorama import Fore, init
+init(autoreset=True)
 
 load_dotenv()
 
@@ -14,7 +16,7 @@ def check_mpv():
     from shutil import which
 
     if which('mpv') == None:
-        print('mpv not found.')
+        print(f'{Fore.RED}mpv not found.')
         sys.exit()
 
 
@@ -33,19 +35,19 @@ def display_table(tbl):
 def get_id_input(lst):
     while True:
         try:
-            v_id = int(input("video ID: "))
+            v_id = int(input(f"{Fore.CYAN}video ID: "))
             if v_id > len(lst)-1 or v_id < 0:
-                print("too big || too small")
+                print(f"{Fore.RED}too big || too small")
             else:
                 return v_id
         except ValueError:
-            print("a positive integer is defined as a number that produces 0 when it is added to the corresponding positive integer.")
+            print(f"{Fore.RED}a positive integer is defined as a number that produces 0 when it is added to the corresponding positive integer.")
 
 def user_choice():
     yes = {'yes','y', 'ye', ''}
     no = {'no','n'}
 
-    choice = input("want to watch other videos? (Y/n): ").lower()
+    choice = input(f"{Fore.CYAN}want to watch other videos? (Y/n): ").lower()
     if choice in yes:
         pass
     elif choice in no:
